@@ -1,0 +1,1 @@
+# PuyoBSC.github.io
