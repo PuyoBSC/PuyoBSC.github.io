@@ -1,0 +1,260 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import styles from "./page.module.css";
+import {
+    createBag,
+    makeNewLine,
+    createField,
+    rotateMino,
+    rotateMinoCounter,
+} from "./implements/functions.js";
+import {
+    FIELD_HEIGHT,
+    FIELD_WIDTH,
+    TETROMINOS,
+} from "./implements/constants.js";
+
+export default function Lab() {
+    const [field, setField] = useState(createField);
+    const [player, setPlayer] = useState({
+        mino: null,
+        pos: { x: 0, y: 0 },
+        rot: 0,
+        shape: null,
+    });
+    const [next, setNext] = useState([]);
+    const [hold, setHold] = useState({
+        flag: false,
+        mino: null,
+    });
+
+    const playerRef = useRef(player);
+
+    const updatePlayer = (updates) => {
+        setPlayer((prev) => ({ ...prev, ...updates }));
+    };
+
+    const updateHold = (updates) => {
+        setHold((prev) => ({ ...prev, ...updates }));
+    };
+
+    const getNewMino = () => {
+        const [newMino, ...rest] = next;
+        updatePlayer({
+            mino: newMino,
+            pos: { x: newMino === "O" ? 6 : 5, y: 0 },
+            rot: 0,
+            shape: TETROMINOS[newMino].shape,
+        });
+        setNext(rest);
+    };
+
+    const getHoldMino = () => {
+        const newHold = player.mino;
+        updatePlayer({
+            mino: hold.mino,
+            pos: { x: hold.mino === "O" ? 6 : 5, y: 0 },
+            rot: 0,
+            shape: TETROMINOS[hold.mino].shape,
+        });
+        updateHold({ flag: true, mino: newHold });
+    };
+
+    const updateCell = (row, col, val) => {
+        setField((prev) => {
+            const newfield = prev.map((r, i) =>
+                i === row ? [...r.slice(0, col), val, ...r.slice(col + 1)] : r
+            );
+            return newfield;
+        });
+    };
+
+    const movePlayer = (dirx, diry, shape) => {
+        const newX = playerRef.current.pos.x + dirx;
+        const newY = playerRef.current.pos.y + diry;
+        const minoSize = shape.length;
+
+        if (
+            newX < 0 ||
+            newX + minoSize > FIELD_WIDTH ||
+            newY + minoSize > FIELD_HEIGHT
+        ) {
+            return;
+        }
+        setPlayer((prev) => ({
+            ...prev,
+            pos: { x: prev.pos.x + dirx, y: prev.pos.y + diry },
+        }));
+    };
+
+    const handleKeyPress = (event) => {
+        const cur = playerRef.current;
+        switch (event.key) {
+            case "a":
+            case "ArrowLeft":
+                movePlayer(-1, 0, cur.shape);
+                break;
+            case "d":
+            case "ArrowRight":
+                movePlayer(1, 0, cur.shape);
+                break;
+            case "s":
+            case "ArrowDown":
+                movePlayer(0, 1, cur.shape);
+                break;
+            case "w":
+            case "ArrowUp":
+            case "x":
+                updatePlayer({
+                    rot: (player.rot + 1) % 4,
+                    shape: rotateMino(player.shape),
+                });
+                break;
+            case "z":
+                updatePlayer({
+                    rot: (player.rot + 3) % 4,
+                    shape: rotateMinoCounter(player.shape),
+                });
+                break;
+            case "c":
+                if (hold.flag) break;
+                if (hold.mino === null) {
+                    updateHold({ flag: true, mino: player.mino });
+                    getNewMino();
+                } else {
+                    getHoldMino();
+                }
+                break;
+                case "t":
+                    
+            case " ":
+                getNewMino();
+                updateHold({ flag: false });
+                break;
+            default:
+                break;
+        }
+    };
+
+    useEffect(() => {
+        playerRef.current = player;
+    }, [player]);
+
+    useEffect(() => {
+        const preventKeyList = [
+            "ArrowLeft",
+            "ArrowRight",
+            "ArrowDown",
+            "ArrowUp",
+            "x",
+            "z",
+            "c",
+            "w",
+            "a",
+            "s",
+            "d",
+            " ",
+        ];
+        const handleKeyDown = (event) => {
+            if (preventKeyList.includes(event.key)) {
+                event.preventDefault();
+            }
+            handleKeyPress(event);
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [player]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const cur = playerRef.current;
+            movePlayer(0, 1, cur.shape);
+        }, 555);
+        return () => clearInterval(interval);
+    }, [next, hold]);
+
+    useEffect(() => {
+        if (next.length <= 7) {
+            const newBag = createBag();
+            setNext((prev) => [...prev, ...newBag]);
+        }
+    }, [next]);
+
+    useEffect(() => {
+        if (player.mino === null && next.length > 0) {
+            getNewMino();
+        }
+    }, [next]);
+
+    return (
+        <div className={styles.lab}>
+            <h1>lab</h1>
+            <div> 현재 미노: {player.mino}</div>
+            <div> hold 미노: {hold.mino ?? "none"}</div>
+            <div>
+                현재 미노 shape:
+                {player.shape === null ? (
+                    "none"
+                ) : (
+                    <div style={{ lineHeight: "1.2" }}>
+                        {player.shape.map((row, i) => (
+                            <div key={i}>
+                                {row.map((cell, j) => (
+                                    <span
+                                        key={j}
+                                        style={{
+                                            display: "inline-block",
+                                            width: "1em",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        {cell}
+                                    </span>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div> next 미노: {next.join(", ")}</div>
+            <div> 위치: ({player.pos.x}, {player.pos.y})</div>
+
+            <div className={styles.grid}>
+                {field.map((row, y) => {
+                    return row.map((cell, x) => {
+                        // 렌더 시 플레이어 미노와 합성 표시
+                        let activeCell = cell;
+                        const { shape, pos, mino } = player;
+                        const relY = y - pos.y;
+                        const relX = x - pos.x;
+
+                        if (
+                            shape &&
+                            relY >= 0 &&
+                            relY < shape.length &&
+                            relX >= 0 &&
+                            relX < shape[0].length &&
+                            shape[relY][relX]
+                        ) {
+                            activeCell = TETROMINOS[mino].color;
+                        }
+
+                        return (
+                            <div
+                                key={`${x}-${y}`}
+                                className={`${styles.cell} ${styles.empty}`}
+                                style={{
+                                    backgroundColor:
+                                        activeCell && activeCell !== 0
+                                            ? `rgb(${activeCell})`
+                                            : "transparent",
+                                }}
+                            ></div>
+                        );
+                    });
+                })}
+            </div>
+        </div>
+    );
+}
