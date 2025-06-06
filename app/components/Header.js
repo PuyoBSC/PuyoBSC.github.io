@@ -1,7 +1,7 @@
 "use client";
 
-import {useState} from "react";
-import {useEffect} from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import styles from "./Header.module.css";
 import SideMenu from "./SideMenu";
 import DarkMode from "./DarkMode";

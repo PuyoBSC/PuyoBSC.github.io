@@ -1,14 +1,13 @@
 "use client"; // 클라이언트에서 실행되도록 설정
 
 import { Noto_Sans_Bhaiksuki } from "next/font/google";
-import styles from "./SideMenu.module.css"; // CSS 모듈 import
+import styles from "./SideMenu.module.css";
 import Link from "next/link";
 
 export default function SideMenu({ open, setOpen }) {
 
   return (
     <div>
-      {/* 사이드 메뉴 */}
       <div className={`${styles.sideMenu} ${open ? styles.open : ""}`}>
         <nav>
           <ul>
@@ -26,7 +25,6 @@ export default function SideMenu({ open, setOpen }) {
         </nav>
       </div>
 
-      {/* 오버레이 배경 (메뉴 열렸을 때 화면 클릭 시 닫힘) */}
       {open && <div className={styles.overlay} onClick={() => setOpen(false)}></div>}
     </div>
   )

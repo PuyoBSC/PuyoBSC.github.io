@@ -26,9 +26,8 @@ export default function DarkModeToggle() {
     }
   }, [dark]);
 
-  console.log("Styles:", styles);  // import가 제대로 되었는지 확인
+  console.log("Styles:", styles);
   console.log("Button class:", styles.darkModeButton);
-
 
   return (
     <button className={styles.darkModeButton} onClick={() => setDark(!dark)}>
