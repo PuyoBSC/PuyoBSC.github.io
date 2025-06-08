@@ -263,25 +263,6 @@ export default function Lab() {
                         );
                     })
                 })}
-                
-                {/*
-                {field.map((row, y) => {
-                    return row.map((cell, x) => {
-                        if (cell === -1) return null;
-                        if (y < 2) {
-                            if (cell === 0) return null;
-                        }
-                        return (
-                            <div
-                                key={`${x}-${y}`}
-                                className={`${styles.cell} ${styles.empty}`}
-                                style={{backgroundColor: `rgb(${cell})`}}
-                            >
-                            </div>
-                        );
-                    })
-                })}
-                    */}
             </div>
         </div>
     );

@@ -1,5 +1,3 @@
-"use client"; // 클라이언트에서 실행되도록 설정
-
 import { Noto_Sans_Bhaiksuki } from "next/font/google";
 import styles from "./SideMenu.module.css";
 import Link from "next/link";
