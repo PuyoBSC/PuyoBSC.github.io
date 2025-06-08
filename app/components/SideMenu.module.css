@@ -9,9 +9,13 @@
     color: var(--foreground-header);
     transition: left 0.3s ease;
     z-index: 999;
-    padding: 50 0 50 0;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
+/* 사이드 메뉴 nav 영역 */
 .sideMenu nav {
     display: flex;
     flex-direction: column;
@@ -19,16 +23,19 @@
     height: 100%;
 }
 
+/* 메뉴 리스트 기본 스타일 */
 .sideMenu nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* 리스트 아이템 */
 .sideMenu nav ul li {
     padding: 15px;
 }
 
+/* 링크 스타일 */
 .sideMenu nav ul li a {
     color: white;
     text-decoration: none;
@@ -39,14 +46,17 @@
     transition: background-color 0.3s ease;
 }
 
+/* 링크 hover 효과 */
 .sideMenu nav ul li a:hover {
     background-color: #444;
 }
 
-.open {
+/* 사이드 메뉴 열린 상태 */
+.sideMenuOpen {
     left: 0;
 }
 
+/* 오버레이 (사이드 메뉴 활성화 시 표시) */
 .overlay {
     position: fixed;
     top: 0;

@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./DarkMode.module.css";
 import { useState, useEffect } from "react";
 

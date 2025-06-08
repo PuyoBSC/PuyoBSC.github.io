@@ -8,7 +8,7 @@ export default function SideMenu({ open, setOpen }) {
 
   return (
     <div>
-      <div className={`${styles.sideMenu} ${open ? styles.open : ""}`}>
+      <div className={`${styles.sideMenu} ${open ? styles.sideMenuOpen : ""}`}>
         <nav>
           <ul>
             <li><Link href="/">홈</Link></li>
