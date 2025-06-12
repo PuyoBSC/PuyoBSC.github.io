@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import NextList from "./components/NextList"
 import styles from "./page.module.css";
 import {
     createBag,
@@ -40,8 +41,8 @@ export default function Lab() {
     const initializeGame = () => {
         setField(createField);
         setNext([]);
-        updatePlayer({mino: null, shape: null});
-        updateHold({mino: null,});
+        updatePlayer({ mino: null, shape: null });
+        updateHold({ mino: null, });
     }
 
     const updatePlayer = (updates) => {
@@ -252,6 +253,7 @@ export default function Lab() {
     return (
         <div className={styles.lab}>
             <h1>lab</h1>
+            {/*
             <div> 현재 미노: {player.mino}</div>
             <div> hold 미노: {hold.mino ?? "none"}</div>
             <div>
@@ -281,6 +283,7 @@ export default function Lab() {
             </div>
             <div> next 미노: {next.join(", ")}</div>
             <div> 위치: ({player.pos.x}, {player.pos.y})</div>
+            */}
 
             <div className={styles.grid}>
                 {
@@ -361,15 +364,13 @@ export default function Lab() {
             <div className={styles.rightPanel}>
                 <div className={styles.hold}>
                     hold
+                    <NextList className={styles.list} key="hold" nextMino={hold.mino} />
                 </div>
-                <div className = {styles.next}>
-                    
+                <div className={styles.next}>
                     nexts
-                    <div> next[0] </div>
-                    <div> next[1] </div>
-                    <div> next[2] </div>
-                    <div> next[3] </div>
-                    <div> next[4] </div>
+                    {next.slice(0, 5).map((mino, index) => (
+                        <NextList className={styles.list} key={index} nextMino={mino} />
+                    ))}
                 </div>
             </div>
         </div>
