@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <div onKeyDown={handleKeyDown}>
-      <h1>{count === 0 ? "Press ArrowUp(↑)" : "처언진나안만한이런기이분도신이나서날아갈정도로웃었던날도"}</h1>
+      <h1>{count === 0 ? "Press ArrowUp(↑)" : "천진난만한이런기분도도"}</h1>
       <div>
         <h2>count: {count}</h2>
       </div>
