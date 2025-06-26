@@ -88,38 +88,42 @@
   max-width: 400px; /* 원하는 크기로 조절 가능 */
   margin-top: 20px;
 }
+/* 데스크탑 기본 레이아웃 (이미 적용됨) */
 
-@media (max-width: 600px) {
+/* 모바일 및 작은 화면 대응 */
+@media (max-width: 700px) {
+  .lab {
+    gap: 8px;
+  }
   .mainField {
     flex-direction: column;
-    gap: 15px;
+    align-items: stretch;
+    gap: 16px;
   }
-
   .rightPanel {
-    min-width: 0;
+    flex-direction: row;
+    min-width: unset;
     width: 100%;
-    padding: 5px;
+    padding: 6px;
+    gap: 8px;
+    height: auto;
+    justify-content: space-between;
   }
-
-  .grid {
-    grid-template-columns: repeat(10, 20px);
-    grid-auto-rows: 20px;
-  }
-
-  .cell {
-    width: 20px;
-    height: 20px;
-  }
-
   .hold, .next {
     min-width: 80px;
     min-height: 80px;
-    padding: 2px 0;
+    height: auto;
+    padding: 4px 0;
   }
-
   .bulletinBoard {
     max-width: 100%;
-    padding: 8px;
-    margin-top: 10px;
+    margin-top: 12px;
+    padding: 8px 4px;
   }
+}
+
+/* restart 버튼 위치 조정 */
+.restartButton {
+  align-self: flex-start;
+  margin-bottom: 8px;
 }
