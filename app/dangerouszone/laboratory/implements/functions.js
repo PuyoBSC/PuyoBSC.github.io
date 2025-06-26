@@ -42,21 +42,14 @@ export function createField() {
 }
 
 //TODO:
+//but srs already implemented
 export function superRotationSystem(block) {
-    // SRS 로직 구현
-    // 블록의 회전과 관련된 로직을 처리합니다.
-    // 예를 들어, 블록이 회전할 때 벽에 부딪히는지 확인하고, 부딪히면 위치를 조정합니다.
-    // 이 부분은 게임의 규칙에 따라 다를 수 있습니다.
-    return block; // 기본값으로 원래 블록 반환
+    return block;
 }
 
 //TODO:
 export function checkTSpin() {
-    // T-스핀 체크 로직
-    // T-스핀을 감지하기 위한 조건을 확인합니다.
-    // 예를 들어, T 모양의 블록이 회전했을 때 주변에 빈 공간이 있는지 확인합니다.
-    // 이 부분은 게임의 규칙에 따라 다를 수 있습니다.
-    return false; // 기본값으로 false 반환 (T-스핀 아님)
+    return false;
 }
 
 export function rotateMino(shape) {
@@ -115,4 +108,13 @@ export const fixMinoToField = (field, shape, posX, posY) => {
         }
     }
     return newField;
+}
+
+export const checkGameOver = (field) => {
+    for (let x = 2; x < FIELD_WIDTH - 2; x++) {
+        if (field[0][x] !== 0 || field[1][x] !== 0) {
+            return true; // 게임 오버
+        }
+    }
+    return false; // 게임 계속
 }

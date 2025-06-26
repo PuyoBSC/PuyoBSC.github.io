@@ -1,51 +1,125 @@
+/* 전체 랩 영역: 세로 정렬 컨테이너 */
 .lab {
+  position: relative;
   display: flex;
-  padding: 20px;
-  flex-direction: row;
-
+  flex-direction: column;
+  gap: 10px; /* 요소 간 간격 (옵션) */
 }
 
+/* 메인 필드: 좌우 정렬 컨테이너, 중앙 정렬 */
+.mainField {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  gap: 30px; /* 오른쪽 패널과 그리드 간 간격 */
+}
+
+/* 테트리스 그리드 영역 */
 .grid {
   display: grid;
   grid-template-columns: repeat(10, 30px);
   grid-auto-rows: 30px;
-  gap: 1px;
-  background-color: #f0f0f0;
+  gap: 0px;
+  background-color: transparent;
 }
 
+/* 기본 셀 스타일 */
 .cell {
   width: 30px;
   height: 30px;
-  border: 1px solid #ccc;
+  border: 0.1px solid #555;
+  box-sizing: border-box;
 }
 
-.hidden {
+/* 숨겨진 셀 (상단 2줄 등) */
+.hiddenCell {
   border: none;
   background-color: transparent;
 }
 
+/* 오른쪽 패널: 홀드 + 넥스트 표시 영역 */
 .rightPanel {
   min-width: 160px;
-  margin: 0 0 0 30px;
   padding: 10px;
   display: flex;
-  flex: 1;
   flex-direction: column;
+  flex: 1; /* 남은 공간 차지 */
   background-color: #dddddd;
+  gap: 10px;
 }
 
+/* 넥스트 미노 표시 영역 */
 .next {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   background-color: #f0f0f0;
   height: 80%;
+  padding: 5px;
+  overflow-y: auto; /* 내용 많을 때 스크롤 */
 }
 
+.list {
+}
+
+/* 홀드 미노 표시 영역 */
 .hold {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   height: 20%;
   background-color: transparent;
+  padding: 5px 0;
+  min-height: 120px;
+  min-width: 120px;
+}
+
+/* 공지판 영역 */
+.bulletinBoard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 10px 10px 30px;
+  background-color:transparent;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 400px; /* 원하는 크기로 조절 가능 */
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .mainField {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .rightPanel {
+    min-width: 0;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(10, 20px);
+    grid-auto-rows: 20px;
+  }
+
+  .cell {
+    width: 20px;
+    height: 20px;
+  }
+
+  .hold, .next {
+    min-width: 80px;
+    min-height: 80px;
+    padding: 2px 0;
+  }
+
+  .bulletinBoard {
+    max-width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+  }
 }
